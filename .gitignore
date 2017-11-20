@@ -14,3 +14,7 @@ face_generation/data/
 
 */.floyd*
 
+practice/cnn-tensorflow/t10k-images-idx3-ubyte.gz
+practice/cnn-tensorflow/t10k-labels-idx1-ubyte.gz
+practice/cnn-tensorflow/train-images-idx3-ubyte.gz
+practice/cnn-tensorflow/train-labels-idx1-ubyte.gz
