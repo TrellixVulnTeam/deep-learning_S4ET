@@ -267,7 +267,7 @@ def conv2d_maxpool(x_tensor, conv_num_outputs, conv_ksize, conv_strides, pool_ks
 #     bias = tf.get_variable('bias',
 #                            bias_shape,
 #                            initializer=tf.random_normal_initializer())
-    weights = tf.Variable(tf.truncated_normal(kernal_shape, stddev=0.8))
+    weights = tf.Variable(tf.truncated_normal(kernal_shape, stddev=0.1))
     bias = tf.Variable(tf.truncated_normal(bias_shape))
     conv = tf.nn.conv2d(x_tensor, weights, strides=[1] + [x for x in conv_strides] + [1], padding='SAME')
     conv = tf.nn.bias_add(conv, bias)
@@ -298,7 +298,7 @@ def flatten(x_tensor):
     : return: A tensor of size (Batch Size, Flattened Image Size).
     """
     # TODO: Implement Function
-    return tf.reshape(x_tensor, [-1, np.prod(x_tensor.shape[1:])])
+    return tf.reshape(x_tensor, [-1, int(np.prod(x_tensor.shape[1:]))])
 
 
 """
@@ -320,9 +320,9 @@ def fully_conn(x_tensor, num_outputs):
     : return: A 2-D tensor where the second dimension is num_outputs.
     """
     # TODO: Implement Function
-    weights = tf.Variable(tf.truncated_normal([int(x_tensor.shape[-1]), num_outputs], stddev=0.8))
+    weights = tf.Variable(tf.truncated_normal([int(x_tensor.shape[-1]), num_outputs], stddev=0.1))
     bias = tf.Variable(tf.truncated_normal([num_outputs]))
-    return tf.matmul(x_tensor, weights) + bias
+    return tf.nn.relu(tf.matmul(x_tensor, weights) + bias)
 
 
 """
@@ -346,7 +346,7 @@ def output(x_tensor, num_outputs):
     : return: A 2-D tensor where the second dimension is num_outputs.
     """
     # TODO: Implement Function
-    weights = tf.Variable(tf.truncated_normal([int(x_tensor.shape[-1]), num_outputs], stddev=0.8))
+    weights = tf.Variable(tf.truncated_normal([int(x_tensor.shape[-1]), num_outputs], stddev=0.1))
     bias = tf.Variable(tf.truncated_normal([num_outputs]))
     return tf.matmul(x_tensor, weights) + bias
 
@@ -399,7 +399,7 @@ def conv_net(x, keep_prob):
     # TODO: Apply a Flatten Layer
     # Function Definition from Above:
     #   flatten(x_tensor)
-    flatconv = flatten(conv2)
+    flatconv = flatten(conv3)
     
 
     # TODO: Apply 1, 2, or 3 Fully Connected Layers
@@ -531,10 +531,10 @@ def print_stats(session, feature_batch, label_batch, cost, accuracy):
 #  * ...
 # * Set `keep_probability` to the probability of keeping a node using dropout
 
-# In[16]:
+# In[15]:
 
 # TODO: Tune Parameters
-epochs = 1000
+epochs = 30
 batch_size = 128
 keep_probability = 0.9
 
@@ -542,7 +542,7 @@ keep_probability = 0.9
 # ### Train on a Single CIFAR-10 Batch
 # Instead of training the neural network on all the CIFAR-10 batches of data, let's use a single batch. This should save time while you iterate on the model to get a better accuracy.  Once the final validation accuracy is 50% or greater, run the model on all the data in the next section.
 
-# In[ ]:
+# In[47]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -565,7 +565,7 @@ with tf.Session() as sess:
 # ### Fully Train the Model
 # Now that you got a good accuracy with a single CIFAR-10 batch, try it with all five batches.
 
-# In[ ]:
+# In[16]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -597,7 +597,7 @@ with tf.Session() as sess:
 # ## Test Model
 # Test your model against the test dataset.  This will be your final accuracy. You should have an accuracy greater than 50%. If you don't, keep tweaking the model architecture and parameters.
 
-# In[ ]:
+# In[17]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
